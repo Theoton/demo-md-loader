@@ -23,7 +23,7 @@ function build(markdown) {
           try {
             fs.readFile(codeFilePath, 'utf-8', function(err, code) {
               if(err) rj(err);
-              rs(raw(code));
+              rs(raw('```\n' + code + '\n```\n'));
             });
           } catch (err) {
             return rj(err);
@@ -55,9 +55,9 @@ function build(markdown) {
 
 function parseCode(markdown) {
   const body = markdown.body;
-  const codes = body.match(/```jsx\n+(\s*import\s+((\'.+\')|(\".+\"));?\s*\n+)*```\n*/g) || [];
+  const codes = body.match(/```jsx(\r|\n)+\s*import\s+((\'.+\')|(\".+\"));?\s*(\r|\n)+```(\r|\n)*/g) || [];
   const codeFiles = codes.map(c =>
-    c.replace(/(```jsx\n+(\s*import\s+(\'|\")))|((\'|\");?\s*\n+)|(```\n*)/g, '')
+    c.replace(/(```jsx(\r|\n)+\s*import\s+(\'|\"))|((\'|\");?\s*(\r|\n)+)|(```(\r|\n)*)/g, '')
   );
   return {
     attributes: markdown.attributes,

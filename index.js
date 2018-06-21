@@ -1,21 +1,21 @@
 'use strict';
 
-const path = require('path');
-const fs = require('fs');
-const frontMatter = require('front-matter');
-const camelize = require('camelize');
+var path = require('path');
+var fs = require('fs');
+var frontMatter = require('front-matter');
+var camelize = require('camelize');
 
 function build(markdown) {
   return new Promise((resolve, reject) => {
-    let doImports = '';
-    const codeFiles = markdown.codeFiles;
-    const mods = [];
-    const linkPromise = [];
+    var doImports = '';
+    var codeFiles = markdown.codeFiles;
+    var mods = [];
+    var linkPromise = [];
     if (codeFiles.length === 0) {
       resolve(`export default ${raw(markdown.body)}`);
     } else {
       codeFiles.forEach((c, i) => {
-        const codeFilePath = path.resolve(this.context, c);
+        var codeFilePath = path.resolve(this.context, c);
         doImports += `import mod_${i} from '${codeFilePath}';\n`;
         mods.push(`mod_${i}`);
         this.addDependency(codeFilePath);
@@ -35,13 +35,13 @@ function build(markdown) {
           resolve(`
             ${doImports}
             
-            export const attributes = ${JSON.stringify(camelize(markdown.attributes))};
-            export const modules = [${mods}];
-            export const codes = [${[...arg]}];
+            export var attributes = ${JSON.stringify(camelize(markdown.attributes))};
+            export var modules = [${mods}];
+            export var codes = [${[...arg]}];
             export default {
-              attributes,
-              modules,
-              codes,
+              attributes: attributes,
+              modules: modules,
+              codes: codes,
             };
             `
           );
@@ -54,9 +54,9 @@ function build(markdown) {
 }
 
 function parseCode(markdown) {
-  const body = markdown.body;
-  const codes = body.match(/```jsx(\r|\n)+\s*import\s+((\'.+\')|(\".+\"));?\s*(\r|\n)+```(\r|\n)*/g) || [];
-  const codeFiles = codes.map(c =>
+  var body = markdown.body;
+  var codes = body.match(/```jsx(\r|\n)+\s*import\s+((\'.+\')|(\".+\"));?\s*(\r|\n)+```(\r|\n)*/g) || [];
+  var codeFiles = codes.map(c =>
     c.replace(/(```jsx(\r|\n)+\s*import\s+(\'|\"))|((\'|\");?\s*(\r|\n)+)|(```(\r|\n)*)/g, '')
   );
   return {
@@ -77,7 +77,7 @@ function parse(markdown) {
 };
 
 module.exports = function (source) {
-  const callback = this.async();
+  var callback = this.async();
 
   parse.call(this, source).then(m => {
     return callback(null, m)

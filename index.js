@@ -56,10 +56,10 @@ function build(markdown) {
 
 function parseCode(markdown) {
   var body = markdown.body;
-  var codeReg = /```code(\r|\n)+\s*import\s+((\'.+\')|(\".+\"));?\s*(\r|\n)+```(\r|\n)*/g;
+  var codeReg = /```jsx(\r|\n)+\s*import\s+((\'.+\')|(\".+\"));?\s*(\r|\n)+```(\r|\n)*/g;
   var codes = body.match(codeReg) || [];
   var codeFiles = codes.map(c =>
-    c.replace(/(```code(\r|\n)+\s*import\s+(\'|\"))|((\'|\");?\s*(\r|\n)+)|(```(\r|\n)*)/g, '')
+    c.replace(/(```jsx(\r|\n)+\s*import\s+(\'|\"))|((\'|\");?\s*(\r|\n)+)|(```(\r|\n)*)/g, '')
   );
   return {
     attributes: markdown.attributes,

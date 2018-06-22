@@ -11,7 +11,7 @@ function build(markdown) {
     var codeFiles = markdown.codeFiles;
     var mods = [];
     var linkPromise = [];
-    if (codeFiles.length === 0) {
+    if (Object.keys(markdown.attributes).length === 0) {
       resolve(`export default ${raw(markdown.body)}`);
     } else {
       codeFiles.forEach((c, i) => {
@@ -42,6 +42,7 @@ function build(markdown) {
               attributes: attributes,
               modules: modules,
               codes: codes,
+              body: ${raw(markdown.body)},
             };
             `
           );
@@ -55,14 +56,15 @@ function build(markdown) {
 
 function parseCode(markdown) {
   var body = markdown.body;
-  var codes = body.match(/```jsx(\r|\n)+\s*import\s+((\'.+\')|(\".+\"));?\s*(\r|\n)+```(\r|\n)*/g) || [];
+  var codeReg = /```jsx(\r|\n)+\s*import\s+((\'.+\')|(\".+\"));?\s*(\r|\n)+```(\r|\n)*/g;
+  var codes = body.match(codeReg) || [];
   var codeFiles = codes.map(c =>
     c.replace(/(```jsx(\r|\n)+\s*import\s+(\'|\"))|((\'|\");?\s*(\r|\n)+)|(```(\r|\n)*)/g, '')
   );
   return {
     attributes: markdown.attributes,
-    codeFiles,
-    body,
+    codeFiles: codeFiles,
+    body: body.replace(codeReg, ''),
   };
 }
 

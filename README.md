@@ -22,38 +22,22 @@ module: {
 }
 ```
 
-*demo.js*
+[*demo.js*](https://github.com/Theoton/demo-markdown-loader/blob/master/test/examples/demo.js)
 
 ```js
 export default { demo: 0 }
 ```
 
-*demo.md*
+[*demo.md*](https://github.com/Theoton/demo-markdown-loader/blob/master/test/examples/demo.md)
 
-```markdown
----
-title: demo
----
-
-```jsx
-import './demo.js';
-```
-
-## demo
-
-this is body
-
-```
-
-*output.js*
+[*output.js*](https://github.com/Theoton/demo-markdown-loader/blob/master/test/examples/output.js)
 
 ```js
 
 import demo from 'demo.md';
 
+console.log(demo);
 /* 
-* console.log(demo);
-*
 * demo: {
 *   attributes: {
 *     title: demo

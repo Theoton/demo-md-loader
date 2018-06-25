@@ -4,9 +4,10 @@ console.log(demo);
 /* 
 * demo: {
 *   attributes: {
-*     title: demo
+*     title: "demo",
+*     imports: ["./demo.js"]
 *   },
-*   body: "## demo\r this is body",
+*   body: "## demo  this is body",
 *   codes: ["export default { demo: 0 }"]
 *   modules: [{ demo: 0 }]
 * }

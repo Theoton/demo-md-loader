@@ -8,7 +8,7 @@ var camelize = require('camelize');
 function build(markdown) {
   return new Promise((resolve, reject) => {
     var doImports = '';
-    var codeFiles = markdown.codeFiles;
+    var codeFiles = markdown.attributes.imports || [];
     var mods = [];
     var linkPromise = [];
     if (Object.keys(markdown.attributes).length === 0) {
@@ -54,20 +54,6 @@ function build(markdown) {
   })
 }
 
-function parseCode(markdown) {
-  var body = markdown.body;
-  var codeReg = /```jsx(\r|\n)+\s*import\s+((\'.+\')|(\".+\"));?\s*(\r|\n)+```(\r|\n)*/g;
-  var codes = body.match(codeReg) || [];
-  var codeFiles = codes.map(c =>
-    c.replace(/(```jsx(\r|\n)+\s*import\s+(\'|\"))|((\'|\");?\s*(\r|\n)+)|(```(\r|\n)*)/g, '')
-  );
-  return {
-    attributes: markdown.attributes,
-    codeFiles: codeFiles,
-    body: body.replace(codeReg, ''),
-  };
-}
-
 function raw(markdown) {
   return JSON.stringify(markdown)
   .replace(/\u2028/g, '\\u2028')
@@ -75,7 +61,7 @@ function raw(markdown) {
 };
 
 function parse(markdown) {
-  return build.call(this,parseCode(frontMatter(markdown)));
+  return build.call(this, frontMatter(markdown));
 };
 
 module.exports = function (source) {

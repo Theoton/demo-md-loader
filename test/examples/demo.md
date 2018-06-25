@@ -1,10 +1,8 @@
 ---
 title: demo
+imports: 
+  - './demo.js'
 ---
-
-```jsx
-import './demo.js';
-```
 
 ## demo
 this is body

@@ -16,6 +16,7 @@ function build(markdown) {
     } else {
       codeFiles.forEach((c, i) => {
         var codeFilePath = path.resolve(this.context, c);
+        codeFilePath = codeFilePath.replace(/\\/g,'/');
         doImports += `import mod_${i} from '${codeFilePath}';\n`;
         mods.push(`mod_${i}`);
         this.addDependency(codeFilePath);
